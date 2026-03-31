@@ -1,0 +1,21 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+@Entity('CONTAS_PAGAR')
+export class ContaPagar {
+  @PrimaryGeneratedColumn()
+  ID_CONTA_PAGAR: number;
+
+  @Column()
+  ID_FORNECEDOR: number;
+
+  @Column({ type: 'text', nullable: true })
+  DESCRICAO: string;
+
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  VALOR: number;
+
+  @Column({ type: 'date', nullable: true })
+  DATA_VENCIMENTO: Date;
+
+  @Column({ length: 20, nullable: true })
+  STATUS: string;
+}
