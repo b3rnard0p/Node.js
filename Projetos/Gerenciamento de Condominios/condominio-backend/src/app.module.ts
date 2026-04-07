@@ -31,7 +31,7 @@ import { MovContaCorrenteModule } from './mov_conta_corrente/mov_conta_corrente.
  password: 'laboratorio',
  database: 'DBCONDOMINIO',
  autoLoadEntities: true,
- synchronize: true,
+ synchronize: false,
  }),
  PessoasModule,
  ContatosModule,
