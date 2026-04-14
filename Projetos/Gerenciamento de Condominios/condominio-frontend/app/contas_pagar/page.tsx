@@ -8,23 +8,23 @@ export default function ContasPagarPage() {
  const [editId, setEditId] = useState<number | null>(null);
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/contas-pagar");
+ const res = await api.get("/contas_pagar");
  setContas(res.data);
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();
  if (editId) {
- await api.put(`/contas-pagar/${editId}`, form);
+ await api.put(`/contas_pagar/${editId}`, form);
  setEditId(null);
  } else {
- await api.post("/contas-pagar", form);
+ await api.post("/contas_pagar", form);
  }
  setForm({ ID_FORNECEDOR: "", DESCRICAO: "", VALOR: "", DATA_VENCIMENTO: "",
 STATUS: "" });
  carregar();
  };
  const handleDelete = async (id: number) => {
- await api.delete(`/contas-pagar/${id}`);
+ await api.delete(`/contas_pagar/${id}`);
  carregar();
  };
  const handleEdit = (c: any) => {

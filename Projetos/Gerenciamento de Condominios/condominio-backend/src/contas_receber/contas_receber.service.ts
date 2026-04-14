@@ -17,4 +17,13 @@ export class ContasReceberService {
   create(contaReceber: ContaReceber): Promise<ContaReceber> {
     return this.contasReceberRepo.save(contaReceber);
   }
+
+  async update(id: number, dados: Partial<ContaReceber>): Promise<ContaReceber> {
+    await this.contasReceberRepo.update(id, dados);
+    return this.contasReceberRepo.findOneByOrFail({ ID_CONTA_RECEBER: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.contasReceberRepo.delete(id);
+  }
 }

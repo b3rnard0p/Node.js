@@ -17,4 +17,13 @@ export class FuncionariosService {
   create(funcionario: Funcionario): Promise<Funcionario> {
     return this.funcionariosRepo.save(funcionario);
   }
+
+  async update(id: number, dados: Partial<Funcionario>): Promise<Funcionario> {
+    await this.funcionariosRepo.update(id, dados);
+    return this.funcionariosRepo.findOneByOrFail({ ID_FUNCIONARIO: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.funcionariosRepo.delete(id);
+  }
 }

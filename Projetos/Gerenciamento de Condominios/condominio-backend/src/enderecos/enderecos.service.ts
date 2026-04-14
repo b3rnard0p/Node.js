@@ -17,4 +17,12 @@ export class EnderecosService {
   create(endereco: Endereco): Promise<Endereco> {
     return this.enderecosRepo.save(endereco);
   }
+  async update(id: number, dados: Partial<Endereco>): Promise<Endereco> {
+    await this.enderecosRepo.update(id, dados);
+    return this.enderecosRepo.findOneByOrFail({ ID_ENDERECO: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.enderecosRepo.delete(id);
+  }
 }

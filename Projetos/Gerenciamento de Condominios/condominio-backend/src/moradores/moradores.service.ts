@@ -17,4 +17,13 @@ export class MoradoresService {
   create(morador: Morador): Promise<Morador> {
     return this.moradoresRepo.save(morador);
   }
+
+  async update(id: number, dados: Partial<Morador>): Promise<Morador> {
+    await this.moradoresRepo.update(id, dados);
+    return this.moradoresRepo.findOneByOrFail({ ID_MORADOR: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.moradoresRepo.delete(id);
+  }
 }

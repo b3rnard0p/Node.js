@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ComunicadosService } from './comunicados.service';
 import { Comunicado } from './comunicado.entity';
 
@@ -15,4 +15,14 @@ export class ComunicadosController {
   create(@Body() comunicado: Comunicado): Promise<Comunicado> {
     return this.comunicadosService.create(comunicado);
   }
+
+  @Put(':id')
+update(@Param('id') id: number, @Body() dados: Partial<Comunicado>): Promise<Comunicado> {
+  return this.comunicadosService.update(id, dados);
+}
+
+@Delete(':id')
+remove(@Param('id') id: number): Promise<void> {
+  return this.comunicadosService.remove(id);
+}
 }

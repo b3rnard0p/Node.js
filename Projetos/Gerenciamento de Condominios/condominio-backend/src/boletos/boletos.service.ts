@@ -17,4 +17,13 @@ export class BoletosService {
   create(boleto: Boleto): Promise<Boleto> {
     return this.boletosRepo.save(boleto);
   }
+
+  async update(id: number, dados: Partial<Boleto>): Promise<Boleto> {
+    await this.boletosRepo.update(id, dados);
+    return this.boletosRepo.findOneByOrFail({ ID_BOLETO: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.boletosRepo.delete(id);
+  }
 }

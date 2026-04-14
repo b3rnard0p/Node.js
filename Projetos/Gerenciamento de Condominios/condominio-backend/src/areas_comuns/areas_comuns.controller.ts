@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { AreasComunsService } from './areas_comuns.service';
 import { AreaComum } from './area_comum.entity';
 
@@ -15,4 +15,14 @@ export class AreasComunsController {
   create(@Body() areaComum: AreaComum): Promise<AreaComum> {
     return this.areasComunsService.create(areaComum);
   }
+
+  @Put(':id')
+update(@Param('id') id: number, @Body() dados: Partial<AreaComum>): Promise<AreaComum> {
+  return this.areasComunsService.update(id, dados);
+}
+
+@Delete(':id')
+remove(@Param('id') id: number): Promise<void> {
+  return this.areasComunsService.remove(id);
+}
 }

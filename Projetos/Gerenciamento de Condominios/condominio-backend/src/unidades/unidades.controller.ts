@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { UnidadesService } from './unidades.service';
 import { Unidade } from './unidade.entity';
 
@@ -15,4 +15,14 @@ export class UnidadesController {
   create(@Body() unidade: Unidade): Promise<Unidade> {
     return this.unidadesService.create(unidade);
   }
+
+  @Put(':id')
+update(@Param('id') id: number, @Body() dados: Partial<Unidade>): Promise<Unidade> {
+  return this.unidadesService.update(id, dados);
+}
+
+@Delete(':id')
+remove(@Param('id') id: number): Promise<void> {
+  return this.unidadesService.remove(id);
+}
 }

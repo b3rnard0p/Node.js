@@ -17,4 +17,12 @@ export class ComunicadosService {
   create(comunicado: Comunicado): Promise<Comunicado> {
     return this.comunicadosRepo.save(comunicado);
   }
+  async update(id: number, dados: Partial<Comunicado>): Promise<Comunicado> {
+    await this.comunicadosRepo.update(id, dados);
+    return this.comunicadosRepo.findOneByOrFail({ ID_COMUNICADO: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.comunicadosRepo.delete(id);
+  }
 }

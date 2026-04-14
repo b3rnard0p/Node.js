@@ -9,17 +9,17 @@ DATA_VENCIMENTO: "", STATUS: "" });
  // Carregar lista inicial
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/contas-receber");
+ const res = await api.get("/contas_receber");
  setContas(res.data);
  };
  // Criar ou editar
  const handleSubmit = async (e: any) => {
  e.preventDefault();
  if (editId) {
- await api.put(`/contas-receber/${editId}`, form);
+ await api.put(`/contas_receber/${editId}`, form);
  setEditId(null);
  } else {
- await api.post("/contas-receber", form);
+ await api.post("/contas_receber", form);
  }
  setForm({ ID_MORADOR: "", DESCRICAO: "", VALOR: "", DATA_VENCIMENTO: "",
 STATUS: "" });
@@ -27,7 +27,7 @@ STATUS: "" });
  };
  // Excluir
  const handleDelete = async (id: number) => {
- await api.delete(`/contas-receber/${id}`);
+ await api.delete(`/contas_receber/${id}`);
  carregar();
  };
  // Preparar edição

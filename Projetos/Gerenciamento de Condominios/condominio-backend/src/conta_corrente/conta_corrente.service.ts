@@ -17,4 +17,13 @@ export class ContaCorrenteService {
   create(contaCorrente: ContaCorrente): Promise<ContaCorrente> {
     return this.contaCorrenteRepo.save(contaCorrente);
   }
+
+  async update(id: number, dados: Partial<ContaCorrente>): Promise<ContaCorrente> {
+    await this.contaCorrenteRepo.update(id, dados);
+    return this.contaCorrenteRepo.findOneByOrFail({ ID_CONTA_CORRENTE: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.contaCorrenteRepo.delete(id);
+  }
 }

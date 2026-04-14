@@ -17,4 +17,12 @@ export class ContratosRhService {
   create(contratoRh: ContratoRh): Promise<ContratoRh> {
     return this.contratosRhRepo.save(contratoRh);
   }
+  async update(id: number, dados: Partial<ContratoRh>): Promise<ContratoRh> {
+    await this.contratosRhRepo.update(id, dados);
+    return this.contratosRhRepo.findOneByOrFail({ ID_CONTRATO_RH: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.contratosRhRepo.delete(id);
+  }
 }

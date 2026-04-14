@@ -17,4 +17,13 @@ export class ReservasService {
   create(reserva: Reserva): Promise<Reserva> {
     return this.reservasRepo.save(reserva);
   }
+
+  async update(id: number, dados: Partial<Reserva>): Promise<Reserva> {
+    await this.reservasRepo.update(id, dados);
+    return this.reservasRepo.findOneByOrFail({ ID_RESERVA: id });
+  }
+  
+  async remove(id: number): Promise<void> {
+    await this.reservasRepo.delete(id);
+  }
 }

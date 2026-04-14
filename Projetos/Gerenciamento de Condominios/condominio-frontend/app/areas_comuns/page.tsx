@@ -8,22 +8,22 @@ export default function AreasComunsPage() {
  const [editId, setEditId] = useState<number | null>(null);
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/areas-comuns");
+ const res = await api.get("/areas_comuns");
  setAreas(res.data);
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();
  if (editId) {
- await api.put(`/areas-comuns/${editId}`, form);
+ await api.put(`/areas_comuns/${editId}`, form);
  setEditId(null);
  } else {
- await api.post("/areas-comuns", form);
+ await api.post("/areas_comuns", form);
  }
  setForm({ NOME_AREA: "", DESCR_AREA: "", CAPACIDADE: "" });
  carregar();
  };
  const handleDelete = async (id: number) => {
- await api.delete(`/areas-comuns/${id}`);
+ await api.delete(`/areas_comuns/${id}`);
  carregar();
  };
  const handleEdit = (a: any) => {
