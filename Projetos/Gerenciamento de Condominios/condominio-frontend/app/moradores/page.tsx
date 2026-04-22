@@ -1,14 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useRouter } from "next/navigation";
 export default function MoradoresPage() {
  const [moradores, setMoradores] = useState<any[]>([]);
  const [form, setForm] = useState({ ID_PESSOA: "", ID_UNIDADE: "" });
  const [editId, setEditId] = useState<number | null>(null);
+ const router = useRouter();
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/moradores");
- setMoradores(res.data);
+ try {
+      const res = await api.get("/moradores");
+      setMoradores(res.data);
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        router.push("/login");
+      }
+    }
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();

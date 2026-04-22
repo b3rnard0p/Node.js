@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { EnderecosService } from './enderecos.service';
 import { Endereco } from './endereco.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('enderecos')
 export class EnderecosController {
   constructor(private readonly enderecosService: EnderecosService) {}

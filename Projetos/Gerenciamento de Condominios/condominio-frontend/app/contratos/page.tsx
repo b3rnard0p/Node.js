@@ -1,15 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useRouter } from "next/navigation";
 export default function ContratosPage() {
  const [contratos, setContratos] = useState<any[]>([]);
  const [form, setForm] = useState({ ID_FORNECEDOR: "", DESCRICAO: "",
 DATA_INICIO: "", DATA_FIM: "", VALOR: "" });
+const router = useRouter();
  const [editId, setEditId] = useState<number | null>(null);
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/contratos");
- setContratos(res.data);
+    try {
+        const res = await api.get("/contratos");
+        setContratos(res.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          router.push("/login");
+        }
+      }
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();

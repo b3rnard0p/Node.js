@@ -21,6 +21,8 @@ import { PagamentosModule } from './pagamentos/pagamentos.module';
 import { RecebimentosModule } from './recebimentos/recebimentos.module';
 import { ContaCorrenteModule } from './conta_corrente/conta_corrente.module';
 import { MovContaCorrenteModule } from './mov_conta_corrente/mov_conta_corrente.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
  imports: [
  TypeOrmModule.forRoot({
@@ -31,8 +33,9 @@ import { MovContaCorrenteModule } from './mov_conta_corrente/mov_conta_corrente.
  password: 'laboratorio',
  database: 'DBCONDOMINIO',
  autoLoadEntities: true,
- synchronize: false,
+ synchronize: true,
  }),
+ AuthModule,
  PessoasModule,
  ContatosModule,
  EnderecosModule,
@@ -54,6 +57,7 @@ import { MovContaCorrenteModule } from './mov_conta_corrente/mov_conta_corrente.
  RecebimentosModule,
  ContaCorrenteModule,
  MovContaCorrenteModule,
+ UsuariosModule
  ],
 })
 export class AppModule {}

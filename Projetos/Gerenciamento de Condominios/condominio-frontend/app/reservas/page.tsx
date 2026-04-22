@@ -1,15 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useRouter } from "next/navigation";
 export default function ReservasPage() {
  const [reservas, setReservas] = useState<any[]>([]);
  const [form, setForm] = useState({ ID_MORADOR: "", ID_AREA_COMUM: "",
 DATA_RESERVA: "", HR_INICIO: "", HR_FIM: "" });
+const router = useRouter();
  const [editId, setEditId] = useState<number | null>(null);
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/reservas");
- setReservas(res.data);
+    try {
+        const res = await api.get("/reservas");
+        setReservas(res.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          router.push("/login");
+        }
+      }
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();

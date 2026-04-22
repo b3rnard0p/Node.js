@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ContratosRhService } from './contratos_rh.service';
 import { ContratoRh } from './contrato_rh.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('contratos_rh')
 export class ContratosRhController {
   constructor(private readonly contratosRhService: ContratosRhService) {}

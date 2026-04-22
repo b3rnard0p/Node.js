@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { MovContaCorrenteService } from './mov_conta_corrente.service';
 import { MovContaCorrente } from './mov_conta_corrente.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('mov_conta_corrente')
 export class MovContaCorrenteController {
   constructor(private readonly movContaCorrenteService: MovContaCorrenteService) {}

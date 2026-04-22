@@ -1,14 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useRouter } from "next/navigation";
 export default function FornecedoresPage() {
  const [fornecedores, setFornecedores] = useState<any[]>([]);
  const [form, setForm] = useState({ ID_PESSOA: "", AREA_ATUACAO: "" });
+ const router = useRouter();
  const [editId, setEditId] = useState<number | null>(null);
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/fornecedores");
- setFornecedores(res.data);
+    try {
+        const res = await api.get("/fornecedores");
+        setFornecedores(res.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          router.push("/login");
+        }
+      }
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();

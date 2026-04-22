@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { UnidadesService } from './unidades.service';
 import { Unidade } from './unidade.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('unidades')
 export class UnidadesController {
   constructor(private readonly unidadesService: UnidadesService) {}

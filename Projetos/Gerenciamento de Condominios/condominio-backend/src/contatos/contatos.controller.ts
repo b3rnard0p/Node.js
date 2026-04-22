@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ContatosService } from './contatos.service';
 import { Contato } from './contato.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('contatos')
 export class ContatosController {
   constructor(private readonly contatosService: ContatosService) {}

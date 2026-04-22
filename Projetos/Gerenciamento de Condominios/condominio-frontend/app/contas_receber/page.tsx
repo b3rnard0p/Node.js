@@ -1,16 +1,24 @@
 "use client";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useRouter } from "next/navigation";
 export default function ContasReceberPage() {
  const [contas, setContas] = useState<any[]>([]);
+ const router = useRouter();
  const [form, setForm] = useState({ ID_MORADOR: "", DESCRICAO: "", VALOR: "",
 DATA_VENCIMENTO: "", STATUS: "" });
  const [editId, setEditId] = useState<number | null>(null);
  // Carregar lista inicial
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/contas_receber");
- setContas(res.data);
+    try {
+        const res = await api.get("/contas_receber");
+        setContas(res.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          router.push("/login");
+        }
+      }
  };
  // Criar ou editar
  const handleSubmit = async (e: any) => {

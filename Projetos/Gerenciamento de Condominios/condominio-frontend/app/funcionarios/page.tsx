@@ -1,15 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useRouter } from "next/navigation";
 export default function FuncionariosPage() {
  const [funcionarios, setFuncionarios] = useState<any[]>([]);
+ const router = useRouter();
  const [form, setForm] = useState({ ID_PESSOA: "", FUNCAO: "", DATA_ADMISSAO:
 "", SALARIO: "" });
  const [editId, setEditId] = useState<number | null>(null);
  useEffect(() => { carregar(); }, []);
  const carregar = async () => {
- const res = await api.get("/funcionarios");
- setFuncionarios(res.data);
+    try {
+        const res = await api.get("/funcionarios");
+        setFuncionarios(res.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          router.push("/login");
+        }
+      }
  };
  const handleSubmit = async (e: any) => {
  e.preventDefault();

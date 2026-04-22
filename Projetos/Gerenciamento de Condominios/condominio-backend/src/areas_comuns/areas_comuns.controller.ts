@@ -1,7 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { AreasComunsService } from './areas_comuns.service';
 import { AreaComum } from './area_comum.entity';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('areas-comuns')
 export class AreasComunsController {
   constructor(private readonly areasComunsService: AreasComunsService) {}

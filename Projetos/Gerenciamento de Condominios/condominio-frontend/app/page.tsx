@@ -1,21 +1,48 @@
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 export default function Dashboard() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    router.push("/login");
+  };
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">Painel do Condomínio</h1>
-      <div className="grid grid-cols-2 gap-4 mt-6">
-        <a href="/pessoas" className="border p-4 hover:bg-gray-50">Pessoas</a>
-        <a href="/moradores" className="border p-4 hover:bg-gray-50">Moradores</a>
-        <a href="/funcionarios" className="border p-4 hover:bg-gray-50">Funcionários</a>
-        <a href="/fornecedores" className="border p-4 hover:bg-gray-50">Fornecedores</a>
-        <a href="/visitantes" className="border p-4 hover:bg-gray-50">Visitantes</a>
-        <a href="/unidades" className="border p-4 hover:bg-gray-50">Unidades</a>
-        <a href="/areas_comuns" className="border p-4 hover:bg-gray-50">Áreas Comuns</a>
-        <a href="/reservas" className="border p-4 hover:bg-gray-50">Reservas</a>
-        <a href="/boletos" className="border p-4 hover:bg-gray-50">Boletos</a>
-        <a href="/comunicados" className="border p-4 hover:bg-gray-50">Comunicados</a>
-        <a href="/contratos" className="border p-4 hover:bg-gray-50">Contratos</a>
-        <a href="/contas_pagar" className="border p-4 hover:bg-gray-50">Contas a Pagar</a>
-        <a href="/contas_receber" className="border p-4 hover:bg-gray-50">Contas a Receber</a>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Painel do Condomínio</h1>
+        <button 
+          onClick={handleLogout} 
+          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+        >
+          Sair
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <a href="/pessoas" className="border p-4">Pessoas</a>
+        <a href="/moradores" className="border p-4">Moradores</a>
+        <a href="/funcionarios" className="border p-4">Funcionários</a>
+        <a href="/fornecedores" className="border p-4">Fornecedores</a>
+        <a href="/visitantes" className="border p-4">Visitantes</a>
+        <a href="/unidades" className="border p-4">Unidades</a>
+        <a href="/areas-comuns" className="border p-4">Áreas Comuns</a>
+        <a href="/reservas" className="border p-4">Reservas</a>
+        <a href="/boletos" className="border p-4">Boletos</a>
+        <a href="/comunicados" className="border p-4">Comunicados</a>
+        <a href="/contratos" className="border p-4">Contratos</a>
+        <a href="/financeiro" className="border p-4">Financeiro</a>
       </div>
     </div>
   );
