@@ -12,6 +12,7 @@ export class AuthController {
     try {
       return await this.authService.createUser(createUserDto);
     } catch (error) {
+      console.error("ERRO REAL AO CRIAR USUÁRIO:", error);
       throw new BadRequestException("Erro ao criar usuário.");
     }
   }

@@ -19,13 +19,23 @@ export class AuthService {
   async createUser(dto: CreateUserDto) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(dto.password, salt);
-    const user = this.userRepo.create({ ...dto, password: hashedPassword });
+    
+    // Fazendo o mapeamento exato
+    const user = this.userRepo.create({ 
+      NOME: dto.nome, // ou dto.NOME (veja como está no seu CreateUserDto)
+      CPF: dto.cpf,   // ou dto.CPF
+      password: hashedPassword 
+    });
+    
     return this.userRepo.save(user);
   }
 
   async login(dto: LoginDto) {
     const user = await this.userRepo.findOneBy({ CPF: dto.CPF });
     
+    console.log("Usuário encontrado no banco:", user);
+    console.log("Senha que chegou no DTO:", dto.password);
+
     if (!user || !(await bcrypt.compare(dto.password, user.password))) {
       throw new UnauthorizedException("Credenciais inválidas");
     }

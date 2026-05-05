@@ -1,5 +1,5 @@
 export class CreateUserDto {
-    NOME: string;
-    CPF: string;
+    nome: string;
+    cpf: string;
     password: string; 
   }
