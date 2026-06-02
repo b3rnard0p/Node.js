@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS pdf_pipeline;
+USE pdf_pipeline;
+
+CREATE TABLE IF NOT EXISTS documentos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome_arquivo VARCHAR(255) NOT NULL,
+  valor_extraido DECIMAL(10,2),
+  data_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

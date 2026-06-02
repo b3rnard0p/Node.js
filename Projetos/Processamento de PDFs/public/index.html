@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pipeline de Faturas e Contratos</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f7f6; }
+    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    h1, h2 { color: #333; }
+    .upload-section { border: 2px dashed #ccc; padding: 20px; text-align: center; border-radius: 6px; margin-bottom: 20px; }
+    button { background-color: #0055A4; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; }
+    button:hover { background-color: #003366; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+    th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #f8f9fa; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard de Faturas em PDF</h1>
+    <div class="upload-section">
+      <input type="file" id="pdfInput" accept="application/pdf">
+      <button onclick="fazerUpload()">Processar PDF</button>
+      <p id="statusMensagem" style="color: #666;"></p>
+    </div>
+    <h2>Documentos Processados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome do Arquivo</th>
+          <th>CNPJ Extraído</th>
+          <th>E-mail do Cliente</th>
+          <th>Data Emissão</th>
+          <th>Data Vencimento</th>
+          <th>Valor Total (R$)</th>
+          <th>Data Upload</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaDocumentos">
+        <!-- Linhas construídas assincronamente via JavaScript -->
+      </tbody>
+    </table>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
