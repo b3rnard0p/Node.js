@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { extrairTextoPdf } = require('./lib/extrairTextoPdf');
+const { extrairMetadados } = require('./lib/extrairMetadados');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const fs = require('fs');
@@ -39,14 +40,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-function formatarDataParaMysql(dataBr) {
-  if (!dataBr) return null;
-  const partes = dataBr.split('/');
-  if (partes.length !== 3) return null;
-  const [dia, mes, ano] = partes;
-  return `${ano}-${mes}-${dia}`;
-}
-
 app.post('/api/upload', upload.single('pdfDocument'), async (req, res) => {
   let filePath = null;
   try {
@@ -59,38 +52,13 @@ app.post('/api/upload', upload.single('pdfDocument'), async (req, res) => {
 
     const dataBuffer = await fs.promises.readFile(filePath);
     const extractedText = await extrairTextoPdf(dataBuffer);
-
-    const regexCnpj = /CNPJ:\s*([0-9]{2}\.[0-9]{3}\.[0-9]{3}\/[0-9]{4}-[0-9]{2})/i;
-    const matchCnpj = extractedText.match(regexCnpj);
-    const cnpjFinal = matchCnpj ? matchCnpj[1] : null;
-
-    const regexEmail = /E-mail:\s*([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})/i;
-    const matchEmail = extractedText.match(regexEmail);
-    const emailFinal = matchEmail ? matchEmail[1].toLowerCase() : null;
-
-    const regexEmissao = /Data de Emissao:\s*([0-9]{2}\/[0-9]{2}\/[0-9]{4})/i;
-    const matchEmissao = extractedText.match(regexEmissao);
-    const dataEmissaoFormatada = matchEmissao
-      ? formatarDataParaMysql(matchEmissao[1])
-      : null;
-
-    const regexVencimento = /Data de Vencimento:\s*([0-9]{2}\/[0-9]{2}\/[0-9]{4})/i;
-    const matchVencimento = extractedText.match(regexVencimento);
-    const dataVencimentoFormatada = matchVencimento
-      ? formatarDataParaMysql(matchVencimento[1])
-      : null;
-
-    const regexValorTotal =
-      /Valor Total[\s\S]*?R\$\s*([0-9]{1,3}(?:\.[0-9]{3})*,[0-9]{2}|[0-9]+(?:\.[0-9]{2})?)/i;
-    const regexValor = /R\$\s*([0-9]{1,3}(?:\.[0-9]{3})*,[0-9]{2}|[0-9]+(?:\.[0-9]{2})?)/i;
-    const matchValor =
-      extractedText.match(regexValorTotal) || extractedText.match(regexValor);
-    let valorFinal = null;
-    if (matchValor && matchValor[1]) {
-      valorFinal = parseFloat(
-        matchValor[1].replace(/\./g, '').replace(',', '.')
-      );
-    }
+    const {
+      cnpj: cnpjFinal,
+      email: emailFinal,
+      dataEmissao: dataEmissaoFormatada,
+      dataVencimento: dataVencimentoFormatada,
+      valor: valorFinal,
+    } = extrairMetadados(extractedText);
 
     const queryInsert = `
       INSERT INTO documentos (nome_arquivo, cnpj, email_cliente, data_emissao, data_vencimento, valor_extraido)
